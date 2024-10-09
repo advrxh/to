@@ -1,0 +1,2 @@
+linkedin https://linkedin.com
+google-og https://google.com
