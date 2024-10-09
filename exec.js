@@ -43,6 +43,8 @@ const setupRedirects = (redirects) => {
 	for (i = 0; i < redirects.length; i++){
 
 		let scriptContent = `
+		<html>
+		<script>
 		document.onload = () => {
 		`;
 		const redirectSyntax = `
@@ -51,6 +53,8 @@ const setupRedirects = (redirects) => {
 		scriptContent += redirectSyntax;
 		scriptContent += `
 		}
+		</script>
+		</html>
 		`
 		fs.writeFile(`./${redirects[i].slug}.html`, scriptContent, (err) => {
 			if (err){
