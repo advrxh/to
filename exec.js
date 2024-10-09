@@ -42,7 +42,7 @@ const setupRedirects = (redirects) => {
 }
 `;
 
-	fs.writeFile("./ghitto/index.js", scriptContent, (err) => {
+	fs.writeFile("./index.js", scriptContent, (err) => {
 		if (err){
 			console.log(err);
 			return
