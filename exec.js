@@ -46,7 +46,7 @@ const setupRedirects = (redirects) => {
 <html>
   <script>
     window.onload = () => {
-      window.location.href = "${redirects[0].url}";
+      window.location.href = "${redirects[i].url}";
     };
   </script>
 </html>
