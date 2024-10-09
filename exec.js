@@ -1,12 +1,8 @@
 const fs = require('node:fs');
 const path = require('path');
 
-let scriptContent = `
-document.onload = () => {
-`;
 
 const flushRedirects = () => {
-
 
 	fs.readdir("./", (err, files) => {
 	  if (err) {
@@ -45,6 +41,10 @@ const parseRedirects = (txt) => {
 const setupRedirects = (redirects) => {
 
 	for (i = 0; i < redirects.length; i++){
+
+		let scriptContent = `
+		document.onload = () => {
+		`;
 		const redirectSyntax = `
 		window.location.href = "${redirects[i].url}";
 		`
@@ -52,8 +52,6 @@ const setupRedirects = (redirects) => {
 		scriptContent += `
 		}
 		`
-
-
 		fs.writeFile(`./${redirects[i].slug}.html`, scriptContent, (err) => {
 			if (err){
 				console.log(err);
