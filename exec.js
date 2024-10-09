@@ -1,11 +1,31 @@
 const fs = require('node:fs');
+const path = require('path');
 
 let scriptContent = `
-
 document.onload = () => {
-	let slug = window.location.pathname.split("/").slice(-1)[0]
-
 `;
+
+const flushRedirects = () => {
+
+
+	fs.readdir("./", (err, files) => {
+	  if (err) {
+	    return
+	  }
+	  files.forEach((file) => {
+	    const filePath = path.join("./", file);
+
+	    if (path.extname(file) === '.html') {
+	      fs.unlink(filePath, (err) => {
+		if (err) {
+			return
+		} 
+	      });
+	    }
+	  });
+	});
+
+}
 
 const parseRedirects = (txt) => {
 
@@ -25,29 +45,22 @@ const parseRedirects = (txt) => {
 const setupRedirects = (redirects) => {
 
 	for (i = 0; i < redirects.length; i++){
-
 		const redirectSyntax = `
-
-	if (slug == "${redirects[i].slug}"){
 		window.location.href = "${redirects[i].url}";
-	}
-		
+		`
+		scriptContent += redirectSyntax;
+		scriptContent += `
+		}
 		`
 
-		scriptContent += redirectSyntax;
 
+		fs.writeFile(`./${redirects[i].slug}.html`, scriptContent, (err) => {
+			if (err){
+				console.log(err);
+				return
+			}
+		})
 	}
-
-	scriptContent += `
-}
-`;
-
-	fs.writeFile("./index.js", scriptContent, (err) => {
-		if (err){
-			console.log(err);
-			return
-		}
-	})
 }
 
 fs.readFile('./redirects.txt', 'utf8', (err, data) => {
@@ -57,6 +70,7 @@ fs.readFile('./redirects.txt', 'utf8', (err, data) => {
 	}
 	const redirects = parseRedirects(data);
 	
+	flushRedirects();
 	setupRedirects(redirects);
 });
 
