@@ -1,3 +1,3 @@
-document.onload = () => {
-	window.href.location = "https://google.com";
+window.onload = () => {
+	window.location.href = "https://google.com";
 }
