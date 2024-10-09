@@ -43,19 +43,14 @@ const setupRedirects = (redirects) => {
 	for (i = 0; i < redirects.length; i++){
 
 		let scriptContent = `
-		<html>
-		<script>
-		document.onload = () => {
-		`;
-		const redirectSyntax = `
-		window.location.href = "${redirects[i].url}";
-		`
-		scriptContent += redirectSyntax;
-		scriptContent += `
-		}
-		</script>
-		</html>
-		`
+<html>
+  <script>
+    window.onload = () => {
+      window.location.href = "${redirects[0].url}";
+    };
+  </script>
+</html>
+`
 		fs.writeFile(`./${redirects[i].slug}.html`, scriptContent, (err) => {
 			if (err){
 				console.log(err);
