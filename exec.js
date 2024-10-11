@@ -1,28 +1,6 @@
 const fs = require('node:fs');
 const path = require('path');
 
-
-const flushRedirects = () => {
-
-	fs.readdir("./", (err, files) => {
-	  if (err) {
-	    return
-	  }
-	  files.forEach((file) => {
-	    const filePath = path.join("./", file);
-
-	    if (path.extname(file) === '.html') {
-	      fs.unlink(filePath, (err) => {
-		if (err) {
-			return
-		} 
-	      });
-	    }
-	  });
-	});
-
-}
-
 const parseRedirects = (txt) => {
 
 	let redirects = []
@@ -61,13 +39,13 @@ const setupRedirects = (redirects) => {
 }
 
 fs.readFile('./redirects.txt', 'utf8', (err, data) => {
+
 	if (err) {
 		console.log(err);
 		return;
 	}
+
 	const redirects = parseRedirects(data);
-	
-	flushRedirects();
 	setupRedirects(redirects);
 });
 
